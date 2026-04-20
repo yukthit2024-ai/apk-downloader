@@ -94,10 +94,25 @@ public class MonitorService extends Service {
 
             OkHttpClient client = new OkHttpClient();
             int downloadCount = 0;
+            boolean existingCleared = false;
 
             for (Element link : links) {
                 String href = link.attr("abs:href");
                 if (href.toLowerCase().endsWith(".apk") && !ApkHistoryManager.hasBeenDownloaded(this, href)) {
+                    if (!existingCleared) {
+                        File[] existingFiles = dir.listFiles();
+                        if (existingFiles != null) {
+                            for (File file : existingFiles) {
+                                if (file.isFile() && file.getName().toLowerCase().endsWith(".apk")) {
+                                    if (file.delete()) {
+                                        appendLog(dirString, "Deleted existing APK: " + file.getName());
+                                    }
+                                }
+                            }
+                        }
+                        existingCleared = true;
+                    }
+                    
                     appendLog(dirString, "Found new APK link: " + href);
                     // Download
                     Request request = new Request.Builder().url(href).build();
