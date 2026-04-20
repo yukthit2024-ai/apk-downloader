@@ -121,9 +121,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void clearApks() {
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
-        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, "");
+        String defaultDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/APKs";
+        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, defaultDir);
         
-        if (dirString.isEmpty()) {
+        if (dirString == null || dirString.isEmpty()) {
             Toast.makeText(this, "Download directory not set", Toast.LENGTH_SHORT).show();
             return;
         }
