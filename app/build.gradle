@@ -7,7 +7,7 @@ def gitShaFull = 'git rev-parse HEAD'.execute().text.trim()
 def gitTag = 'git describe        --tags'.execute().text.trim()
 
 android {
-    namespace 'com.vypeensoft.friendtracker'
+    namespace 'com.vypeensoft.apkdownloader'
     compileSdk 34
 
     buildFeatures {
@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.vypeensoft.friendtracker"
+        applicationId "com.vypeensoft.apkdownloader"
         minSdk 24
         targetSdk 34
         versionCode 1

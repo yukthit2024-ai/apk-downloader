@@ -1,4 +1,4 @@
-package com.vypeensoft.friendtracker;
+package com.vypeensoft.apkdownloader;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;

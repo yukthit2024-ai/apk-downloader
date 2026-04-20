@@ -1,4 +1,4 @@
-package com.vypeensoft.friendtracker;
+package com.vypeensoft.apkdownloader;
 
 import android.os.Bundle;
 import android.view.MenuItem;

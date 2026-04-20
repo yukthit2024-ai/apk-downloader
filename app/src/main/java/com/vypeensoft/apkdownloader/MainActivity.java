@@ -1,4 +1,4 @@
-package com.vypeensoft.friendtracker;
+package com.vypeensoft.apkdownloader;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -127,9 +127,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         refreshHistory();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(updateReceiver, new IntentFilter("com.vypeensoft.friendtracker.UPDATE_UI"), Context.RECEIVER_EXPORTED);
+            registerReceiver(updateReceiver, new IntentFilter("com.vypeensoft.apkdownloader.UPDATE_UI"), Context.RECEIVER_EXPORTED);
         } else {
-            registerReceiver(updateReceiver, new IntentFilter("com.vypeensoft.friendtracker.UPDATE_UI"));
+            registerReceiver(updateReceiver, new IntentFilter("com.vypeensoft.apkdownloader.UPDATE_UI"));
         }
     }
 

@@ -1,4 +1,4 @@
-package com.vypeensoft.friendtracker;
+package com.vypeensoft.apkdownloader;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -104,7 +104,7 @@ public class MonitorService extends Service {
                 }
             }
 
-            Intent updateIntent = new Intent("com.vypeensoft.friendtracker.UPDATE_UI");
+            Intent updateIntent = new Intent("com.vypeensoft.apkdownloader.UPDATE_UI");
             sendBroadcast(updateIntent);
 
         } catch (Exception e) {

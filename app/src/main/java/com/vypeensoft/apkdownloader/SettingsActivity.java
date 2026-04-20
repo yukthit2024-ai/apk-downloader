@@ -1,4 +1,4 @@
-package com.vypeensoft.friendtracker;
+package com.vypeensoft.apkdownloader;
 
 import android.content.Context;
 import android.content.SharedPreferences;
