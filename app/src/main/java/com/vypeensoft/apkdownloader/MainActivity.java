@@ -118,7 +118,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void refreshHistory() {
         List<String> history = ApkHistoryManager.getHistory(this);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, history);
+        List<String> displayNames = new java.util.ArrayList<>();
+        if (!history.isEmpty()) {
+            String url = history.get(history.size() - 1);
+            displayNames.add(url.substring(url.lastIndexOf('/') + 1));
+        }
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, displayNames);
         listHistory.setAdapter(adapter);
     }
 
