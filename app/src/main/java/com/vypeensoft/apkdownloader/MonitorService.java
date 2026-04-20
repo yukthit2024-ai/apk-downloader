@@ -59,6 +59,8 @@ public class MonitorService extends Service {
         String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, "");
 
         if (urlString.isEmpty() || dirString.isEmpty()) {
+            Intent updateIntent = new Intent("com.vypeensoft.apkdownloader.UPDATE_UI");
+            sendBroadcast(updateIntent);
             stopSelf();
             return;
         }
@@ -103,15 +105,13 @@ public class MonitorService extends Service {
                     }
                 }
             }
-
-            Intent updateIntent = new Intent("com.vypeensoft.apkdownloader.UPDATE_UI");
-            sendBroadcast(updateIntent);
-
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            Intent updateIntent = new Intent("com.vypeensoft.apkdownloader.UPDATE_UI");
+            sendBroadcast(updateIntent);
+            stopSelf();
         }
-
-        stopSelf();
     }
 
     private void createNotificationChannel() {
