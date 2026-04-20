@@ -148,12 +148,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             textStatus.setText("Directory does not exist. History cleared.");
         }
 
-        ApkHistoryManager.clearHistory(this);
+        ApkHistoryManager.clearVisibleHistory(this);
         refreshHistory();
     }
 
     private void refreshHistory() {
-        List<String> history = ApkHistoryManager.getHistory(this);
+        List<String> history = ApkHistoryManager.getVisibleHistory(this);
         List<String> displayNames = new java.util.ArrayList<>();
         if (!history.isEmpty()) {
             String url = history.get(history.size() - 1);
