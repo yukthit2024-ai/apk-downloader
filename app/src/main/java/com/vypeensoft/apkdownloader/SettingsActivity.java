@@ -36,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         editDir = findViewById(R.id.edit_dir);
 
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String url = prefs.getString(KEY_URL, "https://example.com/apks");
+        String url = prefs.getString(KEY_URL, "http://192.168.1.68:8000/");
         String dir = prefs.getString(KEY_DOWNLOAD_DIR, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/APKs");
 
         editUrl.setText(url);
