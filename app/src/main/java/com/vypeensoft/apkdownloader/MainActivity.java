@@ -47,6 +47,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     };
 
+    private BroadcastReceiver statusUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            if (message != null) {
+                textStatus.setText(message);
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,10 +177,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         refreshHistory();
+        IntentFilter uiFilter = new IntentFilter("com.vypeensoft.apkdownloader.UPDATE_UI");
+        IntentFilter statusFilter = new IntentFilter("com.vypeensoft.apkdownloader.UPDATE_STATUS");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(updateReceiver, new IntentFilter("com.vypeensoft.apkdownloader.UPDATE_UI"), Context.RECEIVER_EXPORTED);
+            registerReceiver(updateReceiver, uiFilter, Context.RECEIVER_EXPORTED);
+            registerReceiver(statusUpdateReceiver, statusFilter, Context.RECEIVER_EXPORTED);
         } else {
-            registerReceiver(updateReceiver, new IntentFilter("com.vypeensoft.apkdownloader.UPDATE_UI"));
+            registerReceiver(updateReceiver, uiFilter);
+            registerReceiver(statusUpdateReceiver, statusFilter);
         }
     }
 
@@ -178,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPause() {
         super.onPause();
         unregisterReceiver(updateReceiver);
+        unregisterReceiver(statusUpdateReceiver);
     }
 
     @Override

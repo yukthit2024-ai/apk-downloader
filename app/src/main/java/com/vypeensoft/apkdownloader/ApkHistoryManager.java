@@ -87,4 +87,21 @@ public class ApkHistoryManager {
             e.printStackTrace();
         }
     }
+
+    public static boolean isFilenameInHistoryFile(String dirString, String fileName) {
+        if (dirString == null || dirString.isEmpty()) return false;
+        java.io.File historyFile = new java.io.File(dirString, "history.txt");
+        if (!historyFile.exists()) return false;
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(historyFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().equals(fileName)) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

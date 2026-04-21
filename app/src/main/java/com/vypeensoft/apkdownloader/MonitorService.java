@@ -98,50 +98,59 @@ public class MonitorService extends Service {
 
             for (Element link : links) {
                 String href = link.attr("abs:href");
-                if (href.toLowerCase().endsWith(".apk") && !ApkHistoryManager.hasBeenDownloaded(this, href)) {
-                    if (!existingCleared) {
-                        File[] existingFiles = dir.listFiles();
-                        if (existingFiles != null) {
-                            for (File file : existingFiles) {
-                                if (file.isFile() && file.getName().toLowerCase().endsWith(".apk")) {
-                                    if (file.delete()) {
-                                        appendLog(dirString, "Deleted existing APK: " + file.getName());
+                if (href.toLowerCase().endsWith(".apk")) {
+                    String fileName = href.substring(href.lastIndexOf('/') + 1);
+                    if (fileName.isEmpty()) fileName = "downloaded.apk";
+
+                    if (ApkHistoryManager.isFilenameInHistoryFile(dirString, fileName)) {
+                        String msg = "APK found in URL already downloaded before: " + fileName;
+                        appendLog(dirString, msg);
+                        Intent statusIntent = new Intent("com.vypeensoft.apkdownloader.UPDATE_STATUS");
+                        statusIntent.putExtra("message", msg);
+                        sendBroadcast(statusIntent);
+                        continue;
+                    }
+
+                    if (!ApkHistoryManager.hasBeenDownloaded(this, href)) {
+                        if (!existingCleared) {
+                            File[] existingFiles = dir.listFiles();
+                            if (existingFiles != null) {
+                                for (File file : existingFiles) {
+                                    if (file.isFile() && file.getName().toLowerCase().endsWith(".apk")) {
+                                        if (file.delete()) {
+                                            appendLog(dirString, "Deleted existing APK: " + file.getName());
+                                        }
                                     }
                                 }
                             }
+                            existingCleared = true;
                         }
-                        existingCleared = true;
-                    }
-                    
-                    appendLog(dirString, "Found new APK link: " + href);
-                    // Download
-                    Request request = new Request.Builder().url(href).build();
-                    try (Response response = client.newCall(request).execute()) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            String fileName = href.substring(href.lastIndexOf('/') + 1);
-                            
-                            // Prevent empty filename
-                            if(fileName.isEmpty()) fileName = "downloaded.apk";
-
-                            File outFile = new File(dir, fileName);
-                            
-                            try (InputStream is = response.body().byteStream();
-                                 FileOutputStream fos = new FileOutputStream(outFile)) {
-                                byte[] buffer = new byte[8192];
-                                int bytesRead;
-                                while ((bytesRead = is.read(buffer)) != -1) {
-                                    fos.write(buffer, 0, bytesRead);
+                        
+                        appendLog(dirString, "Found new APK link: " + href);
+                        // Download
+                        Request request = new Request.Builder().url(href).build();
+                        try (Response response = client.newCall(request).execute()) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                File outFile = new File(dir, fileName);
+                                
+                                try (InputStream is = response.body().byteStream();
+                                     FileOutputStream fos = new FileOutputStream(outFile)) {
+                                    byte[] buffer = new byte[8192];
+                                    int bytesRead;
+                                    while ((bytesRead = is.read(buffer)) != -1) {
+                                        fos.write(buffer, 0, bytesRead);
+                                    }
                                 }
+                                ApkHistoryManager.addDownload(this, href);
+                                ApkHistoryManager.writeToHistoryFile(dirString, fileName);
+                                appendLog(dirString, "Successfully downloaded: " + fileName);
+                                downloadCount++;
+                            } else {
+                                appendLog(dirString, "Download failed for " + href + " with code: " + response.code());
                             }
-                            ApkHistoryManager.addDownload(this, href);
-                            ApkHistoryManager.writeToHistoryFile(dirString, fileName);
-                            appendLog(dirString, "Successfully downloaded: " + fileName);
-                            downloadCount++;
-                        } else {
-                            appendLog(dirString, "Download failed for " + href + " with code: " + response.code());
+                        } catch (Exception e) {
+                            appendLog(dirString, "Exception during download of " + href + ": " + e.getMessage());
                         }
-                    } catch (Exception e) {
-                        appendLog(dirString, "Exception during download of " + href + ": " + e.getMessage());
                     }
                 }
             }
