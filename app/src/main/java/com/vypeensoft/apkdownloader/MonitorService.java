@@ -134,6 +134,7 @@ public class MonitorService extends Service {
                                 }
                             }
                             ApkHistoryManager.addDownload(this, href);
+                            ApkHistoryManager.writeToHistoryFile(dirString, fileName);
                             appendLog(dirString, "Successfully downloaded: " + fileName);
                             downloadCount++;
                         } else {

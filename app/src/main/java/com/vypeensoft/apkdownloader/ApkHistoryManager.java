@@ -72,4 +72,19 @@ public class ApkHistoryManager {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         prefs.edit().putString(KEY_HISTORY, array.toString()).apply();
     }
+
+    public static void writeToHistoryFile(String dirString, String fileName) {
+        if (dirString == null || dirString.isEmpty()) return;
+        try {
+            java.io.File dir = new java.io.File(dirString);
+            if (!dir.exists()) dir.mkdirs();
+            java.io.File historyFile = new java.io.File(dir, "history.txt");
+            try (java.io.FileOutputStream fos = new java.io.FileOutputStream(historyFile, true)) {
+                String entry = fileName + "\n";
+                fos.write(entry.getBytes());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

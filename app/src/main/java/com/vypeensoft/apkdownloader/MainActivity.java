@@ -140,12 +140,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 }
-                textStatus.setText("Deleted " + deletedCount + " APKs. History cleared.");
+                textStatus.setText("Deleted " + deletedCount + " APKs.");
             } else {
-                textStatus.setText("No APKs found to delete. History cleared.");
+                textStatus.setText("No APKs found to delete.");
             }
         } else {
-            textStatus.setText("Directory does not exist. History cleared.");
+            textStatus.setText("Directory does not exist.");
         }
 
         ApkHistoryManager.clearVisibleHistory(this);
