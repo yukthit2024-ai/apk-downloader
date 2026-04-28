@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -81,6 +82,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         btnCheck.setOnClickListener(v -> startCheck());
         btnClear.setOnClickListener(v -> clearApks());
+
+        listHistory.setOnItemClickListener((parent, view, position, id) -> {
+            String filename = adapter.getItem(position);
+            if (filename != null) {
+                launchApk(filename);
+            }
+        });
 
         checkPermissions();
     }
@@ -165,12 +173,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void refreshHistory() {
         List<String> history = ApkHistoryManager.getVisibleHistory(this);
         List<String> displayNames = new java.util.ArrayList<>();
-        if (!history.isEmpty()) {
-            String url = history.get(history.size() - 1);
+        for (String url : history) {
             displayNames.add(url.substring(url.lastIndexOf('/') + 1));
         }
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, displayNames);
         listHistory.setAdapter(adapter);
+    }
+
+    private void launchApk(String filename) {
+        SharedPreferences prefs = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        String defaultDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/APKs";
+        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, defaultDir);
+
+        if (dirString == null || dirString.isEmpty()) {
+            Toast.makeText(this, "Error: Download directory not set.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File apkFile = new File(dirString, filename);
+        if (apkFile.exists()) {
+            Uri apkUri;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                apkUri = androidx.core.content.FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", apkFile);
+            } else {
+                apkUri = Uri.fromFile(apkFile);
+            }
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(this, "Failed to launch APK: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "APK file not found.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
