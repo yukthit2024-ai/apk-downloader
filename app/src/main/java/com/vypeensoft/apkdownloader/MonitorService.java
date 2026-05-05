@@ -158,7 +158,7 @@ public class MonitorService extends Service {
                     }
                 }
             }
-            String finalMessage = "Check complete. " + (downloadCount > 0 ? downloadCount + " new APKs downloaded." : "No new APKs found.");
+            String finalMessage = "Check complete. " + (downloadCount > 0 ? downloadCount + " new APKs." : "No APKs.");
             appendLog(dirString, "Finished checking. " + finalMessage);
             Intent finalStatusIntent = new Intent("com.vypeensoft.apkdownloader.UPDATE_STATUS");
             finalStatusIntent.putExtra("message", finalMessage);

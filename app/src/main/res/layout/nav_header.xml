@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:paddingTop="8dp"
-        android:src="@android:drawable/ic_menu_mylocation" />
+        android:src="@android:drawable/stat_sys_download" />
 
     <TextView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Track your friends in real-time"
+        android:text="Download APK Files from shared folder"
         android:textColor="@color/white" />
 
 </LinearLayout>
