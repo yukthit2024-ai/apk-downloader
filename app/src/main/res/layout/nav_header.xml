@@ -6,7 +6,7 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
-    android:theme="@style/Theme.VypeenApkDownloader">
+    android:theme="@style/Theme.ApkDownloader">
 
     <ImageView
         android:layout_width="wrap_content"

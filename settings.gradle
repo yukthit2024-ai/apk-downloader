@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Vypeen APK Downloader"
+rootProject.name = "APK Downloader"
 include ':app'

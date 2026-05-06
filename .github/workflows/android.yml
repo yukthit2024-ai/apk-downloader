@@ -56,16 +56,16 @@ jobs:
         if: success()
         run: |
           mv app/build/outputs/apk/debug/app-debug.apk \
-             app/build/outputs/apk/debug/Vypeen-APK-Downloader-${BUILD_TIMESTAMP}.apk
-          echo "Renamed APK → Vypeen-APK-Downloader-${BUILD_TIMESTAMP}.apk"
+             app/build/outputs/apk/debug/APK-Downloader-${BUILD_TIMESTAMP}.apk
+          echo "Renamed APK → APK-Downloader-${BUILD_TIMESTAMP}.apk"
 
       # ── Upload APK artifact ─────────────────────────────────────────────────
       - name: Upload debug APK
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Vypeen-APK-Downloader-${{ env.BUILD_TIMESTAMP }}
-          path: app/build/outputs/apk/debug/Vypeen-APK-Downloader-${{ env.BUILD_TIMESTAMP }}.apk
+          name: APK-Downloader-${{ env.BUILD_TIMESTAMP }}
+          path: app/build/outputs/apk/debug/APK-Downloader-${{ env.BUILD_TIMESTAMP }}.apk
           if-no-files-found: error    # fail loudly if APK is missing
 
       # ── Write job summary ───────────────────────────────────────────────────
@@ -77,7 +77,7 @@ jobs:
           echo "| Item | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| APK | \`app/build/outputs/apk/debug/app-debug.apk\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| Artifact | **Vypeen-APK-Downloader-$BUILD_TIMESTAMP** (download from the Summary tab above) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Artifact | **APK-Downloader-$BUILD_TIMESTAMP** (download from the Summary tab above) |" >> $GITHUB_STEP_SUMMARY
 
       # ── Upload build reports on failure (for easier debugging) ──────────────
       - name: Upload build reports on failure
