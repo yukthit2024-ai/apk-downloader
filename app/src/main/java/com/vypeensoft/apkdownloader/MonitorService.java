@@ -74,7 +74,7 @@ public class MonitorService extends Service {
         
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
         String urlString = prefs.getString(SettingsActivity.KEY_URL, "");
-        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, "");
+        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, SettingsActivity.DEFAULT_DOWNLOAD_DIR);
 
         if (urlString.isEmpty() || dirString.isEmpty()) {
             Intent statusIntent = new Intent("com.vypeensoft.apkdownloader.UPDATE_STATUS");

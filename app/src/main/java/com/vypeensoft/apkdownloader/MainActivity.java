@@ -137,8 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void clearApks() {
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
-        String defaultDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/APKs";
-        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, defaultDir);
+        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, SettingsActivity.DEFAULT_DOWNLOAD_DIR);
         
         if (dirString == null || dirString.isEmpty()) {
             textStatus.setText("Error: Download directory not set.");
@@ -181,8 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void launchApk(String filename) {
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
-        String defaultDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/APKs";
-        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, defaultDir);
+        String dirString = prefs.getString(SettingsActivity.KEY_DOWNLOAD_DIR, SettingsActivity.DEFAULT_DOWNLOAD_DIR);
 
         if (dirString == null || dirString.isEmpty()) {
             Toast.makeText(this, "Error: Download directory not set.", Toast.LENGTH_SHORT).show();

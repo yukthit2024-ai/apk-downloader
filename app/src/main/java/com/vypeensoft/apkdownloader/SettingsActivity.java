@@ -17,6 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "apk_downloader_prefs";
     public static final String KEY_URL = "monitor_url";
     public static final String KEY_DOWNLOAD_DIR = "download_dir";
+    public static final String DEFAULT_DOWNLOAD_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Vypeensoft/APK_Downloader/";
 
     private TextInputEditText editUrl;
     private TextInputEditText editDir;
@@ -37,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String url = prefs.getString(KEY_URL, "http://192.168.1.68:8000/");
-        String dir = prefs.getString(KEY_DOWNLOAD_DIR, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/APKs");
+        String dir = prefs.getString(KEY_DOWNLOAD_DIR, DEFAULT_DOWNLOAD_DIR);
 
         editUrl.setText(url);
         editDir.setText(dir);
