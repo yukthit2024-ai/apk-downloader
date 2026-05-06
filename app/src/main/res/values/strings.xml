@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vypeen APK Downloader</string>
+    <string name="app_name">APK Downloader</string>
     <string name="title_activity_settings">Download Settings</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_about">About</string>
@@ -8,7 +8,7 @@
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
     
-    <string name="about_text">"Vypeen APK Downloader\nVersion 1.1\n\nA simple app to download APK files from shared folder."</string>
+    <string name="about_text">"APK Downloader\nVersion 1.1\n\nA simple app to download APK files from shared folder."</string>
     <string name="help_text">"How to use:\n1. ?????\n2. ?????.\n3. ?????."</string>
     
     <string name="permission_rationale">This app needs File system permissions to download APK files to your local.</string>
